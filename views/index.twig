@@ -1,0 +1,23 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+<form action="http://localhost:3000/products/addProduct" method="post">
+  <label>libelle</label>
+  <input type="text" name="libelle"/>
+  <br/>
+  <label>price</label>
+  <input type="number" name="price"/>
+  <br>
+  <label>description</label>
+  <input type="text" name="description"/>
+  <br>
+  <label>quantite</label>
+  <input type="number" name="quantite"/>
+  <br>
+  <label>stock</label>
+  <input type="radio" name="stock" value="true"/>oui
+  <input type="radio" name="stock" value="false"/>non
+  <br>
+  <button type="submit" >ajouter produit</button>
+   </form>
+{% endblock %}

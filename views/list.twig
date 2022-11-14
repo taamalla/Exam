@@ -1,0 +1,53 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+<script
+  src="../jquery.js"
+  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+  crossorigin="anonymous"></script>
+  <script src="../socket.io.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
+  
+	<h1 style="text-align:center;">Liste des produits</h1>
+    <hr/>
+	<form action="http://localhost:3000/product/deleteProduit/:id" method="get">
+
+	<table border="1" style="margin:auto;">
+        <tr>
+            <td colspan="2">
+                <a href="#">Gérer user</a>
+            </td>
+        </tr>
+        <tr>
+            <td>libelle</td>
+            <td>prix</td>
+            <td>description</td>
+            <td>stock</td>
+            <td>Supprimer</td>
+            <td>Notifier Admin</td>
+        </tr>
+        {% for produit in produits %}
+        <tr>
+            <td>{{produit.libelle}}</td>
+            <td>{{produit.prix}}</td>
+            <td>{{produit.descrition}}</td>
+            <td>{{produit.quantite}}</td>
+            {% if {{produit.inStock}}=="true" %}<td>dans le stock</td> {% endif %}
+            {% if {{produit.inStock}}=="false" %}<td>En repture de stock</td> {% endif %}
+            
+            <td>
+                <button type="submit"> Supprimer</button>
+            </td>
+           <td> <button onclick="sendNotification()"><a href="http://localhost:3000/users/notif}">notifier admin</a></button></td>
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+    <script>
+       function sendNotification(){
+        var socket = io('http://localhost:3000/notif');
+        var notification = "your product will be deleted because it is out of stuck";
+        socket.emit('notification', notification);
+    }
+       
+    </script>
+{% endblock %}
