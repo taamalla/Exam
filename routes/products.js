@@ -80,6 +80,9 @@ router.put("/update/:id", async function (req, res, next) {
     res.status(404).json("Product not found");
   }
 });
+router.get('/notif', async function(req, res, next){
+  res.render("notification")
+})
 
 
 module.exports = router;
