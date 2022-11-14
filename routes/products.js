@@ -53,36 +53,20 @@ router.delete("/deleteProduit/:id", async function (req, res, next) {
     res.status(404).json(error.message);
   }
 });
-router.put("/update/:id", async function (req, res, next) {
-  const { id } = req.params;
-  const {libelle,
-    prix,
-    descrition,
-    quantite,
-    inStock} = req.body
-
-  try {
-    
-    const checkIfUserExists = await Produit.findOne({ _id: id });
-    if(!checkIfUserExists) {
-      throw new Error("Product does not exists !");
+router.put("/update/:Id", async function (req, res, next) {
+  try{
+    const { produitId } = req.params;
+    const { libelle, prix, description,quantite,stock } = req.body;
+    const checkIfproduitExist = await Produit.findById(Id);
+    if (!checkIfproduitExist) {
+      return res.status(404).json({ message: "produit nexiste" });
     }
-    const Produit = new Produit({
-      libelle,
-      prix,
-      descrition,
-      quantite,
-      inStock
-    });
-    await Produit.save();
-    res.json("Product updated successfuly !");
-  } catch (error) {
-    res.status(404).json("Product not found");
-  }
-});
-router.get('/notif', async function(req, res, next){
-  res.render("notification")
-})
+    const produit = await Produit.findByIdAndUpdate(Id, { libelle, prix, description,quantite,stock });
+    res.status(200).json(produit);
 
+  }catch (e){
+    res.status(500).json({ message: e.message });
+  }
+  });
 
 module.exports = router;
